@@ -39,7 +39,7 @@ class GoodCharacter(Character):
         return self.__gift
 
     def describe(self) -> str:
-        print(f'{super().describe()} "I have {self.__gift}!\nBut I need {self.__wish}. What do you GIVE me?"')
+        print(f'{super().describe()} "I have {self.__gift}!\nBut I need {self.__wish}."')
 
 class BadCharacter(Character):
     def __init__(self, name: str, description: str) -> None:
@@ -51,6 +51,19 @@ class BadCharacter(Character):
 
     def get_weakness(self):
         return self.__weakness
+    
+    def describe(self) -> str:
+        print(f'{super().describe()} "My weakness is - {self.__weakness}"')
+
+    def fight(self, fight_with: str) -> bool:
+        '''
+        Method to fight with enemy
+        '''
+        if fight_with == self.__weakness:
+            print(f'You fend {self.get_name()} off with the {self.__weakness}')
+            return True
+        print(f'{self.__name} crushes you, puny adventurer!')
+        return False
     
 class Item:
     def __init__(self, name: str, description: str) -> None:
@@ -74,7 +87,6 @@ class Weapon(Item):
         pass
 
 
-
 class Street:
 
     def __init__(self, name: str) -> None:
@@ -96,20 +108,16 @@ class Street:
         print('-' * 20)
         print(self.__description)
         for  neibour in self.__neighbours:
-            print(f'The {neibour.get_name()} is neignbour.') ###############
+            print(f'The {neibour.get_name()} is neignbour.')
         
     def set_character(self, character: TGood|None) -> None:
         self.__inhabitant = character
-
-    # def get_item(self) -> TItem|None:
-    #     return self.__item
-    
-    # def set_item(self, item: TItem|None) -> None:
-    #     self.__item = item
         
     def get_character(self) -> TCharacter|None:
         return self.__inhabitant
     
     def move(self) -> TStreet:
-        return self.__neighbours[0]
-
+        for i, street in enumerate(self.__neighbours):
+            print(f"Press {i} to move to {street.get_name()}")
+        return self.__neighbours[int(input('> '))]
+    
